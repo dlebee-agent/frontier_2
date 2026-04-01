@@ -26,7 +26,7 @@ use core::{marker::PhantomData, mem};
 use ethereum::AuthorizationList;
 use evm::{
 	backend::Backend as BackendT,
-	executor::stack::{Accessed, StackExecutor, StackState as StackStateT, StackSubstateMetadata},
+	executor::stack::{Accessed, Delegation, StackExecutor, StackState as StackStateT, StackSubstateMetadata},
 	gasometer::{GasCost, StorageTarget},
 	ExitError, ExitReason, ExternalOperation, Opcode, Transfer,
 };
@@ -1442,6 +1442,23 @@ where
 				weight_info.refund_proof_size(amount);
 			}
 		}
+	}
+
+	fn set_delegation(
+		&mut self,
+		authority: sp_core::H160,
+		delegation: Delegation,
+	) -> Result<(), ExitError> {
+		// Store EIP-7702 delegation in account code storage.
+		let code = delegation.to_bytes();
+		<Pallet<T>>::create_account(authority, code);
+		Ok(())
+	}
+
+	fn reset_delegation(&mut self, authority: sp_core::H160) -> Result<(), ExitError> {
+		// Clear EIP-7702 delegation by setting empty code.
+		<Pallet<T>>::create_account(authority, Vec::new());
+		Ok(())
 	}
 }
 
