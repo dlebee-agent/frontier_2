@@ -30,8 +30,6 @@ use evm::{
 	gasometer::{GasCost, StorageTarget},
 	ExitError, ExitReason, ExternalOperation, Opcode, Transfer,
 };
-// Cumulus
-use cumulus_primitives_storage_weight_reclaim::get_proof_size;
 // Substrate
 use frame_support::{
 	traits::{
@@ -56,6 +54,13 @@ use crate::{
 	AccountStorages, AddressMapping, BalanceOf, BlockHashMapping, Config, EnsureCreateOrigin,
 	Error, Event, FeeCalculator, OnChargeEVMTransaction, OnCreate, Pallet, RunnerError,
 };
+
+// IMPORTANT: This function is a placeholder for the ProofSizeExt host-function, so that
+// we can update to 2512 without requiring validators to update their nodes to a version that supports the ProofSizeExt host-function.
+// IT SHOULD BE REPLACED ONCE WE DECIDE TO REQUIRE THE PROOFSIZE HOST-FUNCTION
+fn get_proof_size() -> Option<u64> {
+	None
+}
 
 #[cfg(feature = "forbid-evm-reentrancy")]
 environmental::environmental!(IN_EVM: bool);
