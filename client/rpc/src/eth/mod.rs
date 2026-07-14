@@ -576,6 +576,7 @@ fn rich_block_build(
 				difficulty: block.header.difficulty,
 				nonce,
 				size: Some(U256::from(rlp::encode(&block.header).len() as u32)),
+				mix_hash: block.header.mix_hash,
 			},
 			total_difficulty,
 			uncles: vec![],
