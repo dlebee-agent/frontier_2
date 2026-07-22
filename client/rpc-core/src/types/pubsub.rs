@@ -105,6 +105,7 @@ impl PubSubResult {
 				difficulty: block.header.difficulty,
 				nonce: Some(block.header.nonce),
 				size: Some(U256::from(rlp::encode(&block.header).len() as u32)),
+				mix_hash: block.header.mix_hash,
 			},
 			extra_info: BTreeMap::new(),
 		}))

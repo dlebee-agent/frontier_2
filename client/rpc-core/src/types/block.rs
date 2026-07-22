@@ -103,6 +103,9 @@ pub struct Header {
 	pub nonce: Option<H64>,
 	/// Size in bytes
 	pub size: Option<U256>,
+	/// Mix hash (PREVRANDAO post-merge; required by the Ethereum JSON-RPC block schema —
+	/// strict clients such as alloy reject block responses without it)
+	pub mix_hash: H256,
 }
 
 /// Block representation with additional info.
