@@ -874,9 +874,11 @@ fn eip7702_delegation_storage_meter_safety_check() {
 	});
 }
 
-// Layer 3 (execution dispatch guard): a type-4 SetCode transaction whose destination
-// is a contract creation (empty `to`) must never reach the create arm. `Ethereum::execute`
-// must return an error and the sender must NOT receive a delegation designator.
+/// Layer 3 (execution dispatch guard): a type-4 SetCode transaction whose destination is a
+/// contract creation (empty `to`) must never reach the create arm.
+///
+/// `Ethereum::execute` must return an error and the sender must NOT receive a delegation
+/// designator.
 #[test]
 fn eip7702_create_shape_is_rejected_at_execution() {
 	let (pairs, mut ext) = new_test_ext_with_initial_balance(2, 10_000_000_000_000);

@@ -1151,6 +1151,12 @@ impl<T: Config> BlockHashMapping for EthereumBlockHashMapping<T> {
 pub struct InvalidTransactionWrapper(InvalidTransaction);
 
 impl From<TransactionValidationError> for InvalidTransactionWrapper {
+	/// Map a [`TransactionValidationError`] onto the transaction-pool rejection reason that best
+	/// describes it.
+	///
+	/// Errors with a dedicated `InvalidTransaction` variant (`Payment`, `Stale`, `Future`) use it;
+	/// every other error is reported as `InvalidTransaction::Custom(<error discriminant>)` so the
+	/// original cause stays recoverable from the returned error code.
 	fn from(validation_error: TransactionValidationError) -> Self {
 		match validation_error {
 			TransactionValidationError::GasLimitTooLow => InvalidTransactionWrapper(

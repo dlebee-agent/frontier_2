@@ -360,6 +360,10 @@ mod tests {
 	}
 
 	impl From<TransactionValidationError> for TestError {
+		/// Map a [`TransactionValidationError`] onto its `TestError` counterpart.
+		///
+		/// The mapping is exhaustive so that adding a validation error forces the test error type
+		/// to be extended too, and assertions can compare against an exact variant.
 		fn from(e: TransactionValidationError) -> Self {
 			match e {
 				TransactionValidationError::GasLimitTooLow => TestError::GasLimitTooLow,
@@ -508,6 +512,7 @@ mod tests {
 		})
 	}
 
+	/// Build a test transaction whose gas limit exceeds the block gas limit.
 	fn transaction_gas_limit_high<'config>() -> CheckEvmTransaction<'config, TestError> {
 		test_env(TestCase {
 			blockchain_gas_limit: U256::from(1u8),
@@ -561,6 +566,7 @@ mod tests {
 		assert!(tx.with_eip7702_authorization_list(false).is_ok());
 	}
 
+	/// Build a test transaction whose nonce is ahead of the account nonce.
 	fn transaction_nonce_high<'config>() -> CheckEvmTransaction<'config, TestError> {
 		test_env(TestCase {
 			nonce: U256::from(10u8),
