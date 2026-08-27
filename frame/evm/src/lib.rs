@@ -645,6 +645,7 @@ pub mod pallet {
 				TransactionValidationError::TransactionGasLimitExceedsCap => {
 					Error::<T>::TransactionGasLimitExceedsCap
 				}
+				TransactionValidationError::InvalidAuthorizationCreate => Error::<T>::Undefined,
 				TransactionValidationError::UnknownError => Error::<T>::Undefined,
 			}
 		}
